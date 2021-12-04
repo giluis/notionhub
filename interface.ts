@@ -20,7 +20,23 @@ export  abstract class Block {
     }
 }
 
-export type BlockType = "heading_1"| "heading_2"| "heading_3"| "paragraph"| "to_do"| "toggle";
+export type BlockType = 'heading_1' | 'heading_2' | 'heading_3' | "paragraph"| "to_do"| "toggle";
+
+export function isHeading(b:IBlock):b is IHeading{
+    return b.type === "heading_1" || b.type === "heading_2"  || b.type === "heading_3" ;
+}
+
+export function isParagraph(b:IBlock):b is IParagraph{
+    return b.type === "paragraph";
+}
+
+export function isToDo(b:IBlock):b is IToDo{
+    return b.type === "to_do";
+}
+
+export function isToggle(b:IBlock):b is IToggle{
+    return b.type === "toggle";
+}
 
 export class BlockProps   {
     id: string;
@@ -123,25 +139,23 @@ export interface IParagraph extends IBlock {
 }
 
 // Using generics
-type HeadingTpye = 'heading_1' | 'heading_2' | 'heading_3' | 'paragraph';
+type HeadingType = 'heading_1' | 'heading_2' | 'heading_3';
 
 
 
-type Heading<T extends HeadingTpye> = {
-    type: T;
-} & {
-    [K in T]: {
-        text: string;
-    };
-};
 
-const heading:Heading<"heading_1"> = {
-    type: "heading_1",
-    heading_1: {
-        text: "sdlfkjl"
+export interface IHeading extends IBlock  {
+    type: HeadingType;
+    heading_1?: {
+        text: IText[]
     }
-}
-
+    heading_2?: {
+        text: IText[]
+    }
+    heading_3?: {
+        text: IText[]
+    }
+};
 
 export interface IText {
     type:"text",
