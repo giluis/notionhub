@@ -122,10 +122,23 @@ export interface IParagraph extends IBlock {
     }
 }
 
-export interface IHeading extends IBlock {
-    type: "heading_1" | "heading_2" | "heading_3";
+// Using generics
+type HeadingTpye = 'heading_1' | 'heading_2' | 'heading_3' | 'paragraph';
+
+
+
+type Heading<T extends HeadingTpye> = {
+    type: T;
+} & {
+    [K in T]: {
+        text: string;
+    };
+};
+
+const heading:Heading<"heading_1"> = {
+    type: "heading_1",
     heading_1: {
-        text: IText[];
+        text: "sdlfkjl"
     }
 }
 
