@@ -21,17 +21,14 @@ type BlockID = string;
 
 *
 */
-function render(b:IBlock, parent_id: BlockID,indentLevel: number):string{
-    let result = '\n'+ tab.repeat(indentLevel) + BLOCK_HEADER;
-    result += tab.repeat(indentLevel) + renderProps(b)
-    result += tab.repeat(indentLevel) + heading(b) || paragraph(b) || "";
-    result += tab.repeat(indentLevel) + BLOCK_FOOTER;
+function render(b:IBlock, parent_id: BlockID):string{
+    let result = '\n' + `[${ local_id(b,parent_id) }]: #`;
+    result +=  heading(b) || paragraph(b) || "";
     return result;
 }
 
-
-function renderProps(b:IBlock):string {
-    return `id:=${b.id},has_children:=${b.has_children},last_edited_time:=${b.last_edited_time},created_time:=${b.created_time}`
+function local_id(b:IBlock, parent_id: BlockID): `${BlockID}___${BlockID}`{
+    return `${b.id}___${parent_id}`
 }
 
 
