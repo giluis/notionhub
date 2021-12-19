@@ -60,11 +60,17 @@ export class BlockProps   {
 export type ColorSelect = "blue" | "red";
 
 export interface SingleSelect extends IPageProperty {
-    id:string;
-    name:string;
-    color: ColorSelect;
-
+    type: IPagePropertyType.SINGLE_SELECT;
+    select: {id:string,  name:string, color: IColor}
 }
+
+export interface ICreatedTime extends IPageProperty {
+    type: IPagePropertyType.CREATED_TIME
+    created_time: IDateTime;
+}
+
+//TODO
+export type IDateTime = string;
 
 export interface IPage extends IBlock{
     cover: null | string;
@@ -77,6 +83,11 @@ export interface IPage extends IBlock{
         [key:string]: IPageProperty
     };
     url: string;
+}
+
+export interface IMultiSelect extends IPageProperty {
+    type: IPagePropertyType.MULTI_SELECT;
+    multi_select: {id:string, name:string, color: IColor}[]
 }
 
 export enum IPagePropertyType {
@@ -93,9 +104,6 @@ export enum IPagePropertyType {
 export interface IPageProperty   {
     id: string;
     type: IPagePropertyType;
-    multi_select?: string [];
-    created_time?: string;
-    title?:string;
 }
 
 export interface IPagePayload {
@@ -141,21 +149,28 @@ export interface IParagraph extends IBlock {
 // Using generics
 type HeadingType = 'heading_1' | 'heading_2' | 'heading_3';
 
-
-
-
-export interface IHeading extends IBlock  {
-    type: HeadingType;
-    heading_1?: {
-        text: IText[]
+export interface  IHeading1  extends IBlock{
+    type: "heading_1";
+    heading_1: {
+        text:IText[];
     }
-    heading_2?: {
-        text: IText[]
+}
+
+export interface IHeading2  extends IBlock{
+    type: "heading_2";
+    heading_2: {
+        text:IText[];
     }
-    heading_3?: {
-        text: IText[]
+}
+
+export interface IHeading3  extends IBlock{
+    type: "heading_3";
+    heading_3: {
+        text:IText[];
     }
-};
+}
+
+export type IHeading = IHeading1 | IHeading2 | IHeading3;
 
 export interface IText {
     type:"text",
@@ -174,8 +189,8 @@ export interface ITextAnnotations {
     strikethrough: boolean;
     underline: boolean;
     code: boolean;
-    color: ITextColor;
+    color: IColor;
 }
 
-export type ITextColor = "default";
+export type IColor = "default";
 
